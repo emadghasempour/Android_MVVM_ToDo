@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_08"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <CheckBox
+        android:id="@+id/checkbox_completed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        />
+    <TextView
+        android:id="@+id/text_task_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/img_priority"
+        tools:text="Hellom"
+        android:layout_toEndOf="@id/checkbox_completed"
+        android:layout_alignTop="@id/checkbox_completed"
+        android:layout_alignBottom="@id/checkbox_completed"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:ellipsize="end"
+        />
+    <ImageView
+        android:id="@+id/img_priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_priority"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        />
+
+</RelativeLayout>
