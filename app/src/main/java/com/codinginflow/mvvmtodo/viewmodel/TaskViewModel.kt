@@ -51,8 +51,8 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    fun onTaskClicked(task: Task){
-
+    fun onTaskClicked(task: Task) = viewModelScope.launch {
+        taskEventChannel.send(TaskEvent.NavigateToEditTaskScreen(task))
     }
 
     fun onTaskSwiped(task: Task){
@@ -69,7 +69,12 @@ class TaskViewModel @Inject constructor(
         }
     }
 
+    fun onNavigateToEditTaskScreen(task: Task) = viewModelScope.launch {
+        taskEventChannel.send(TaskEvent.NavigateToEditTaskScreen(task))
+    }
+
     sealed class TaskEvent{
+        data class NavigateToEditTaskScreen(val task: Task) : TaskEvent()
         data class ShowUndoDeleteMessage(val task: Task) : TaskEvent()
     }
 }

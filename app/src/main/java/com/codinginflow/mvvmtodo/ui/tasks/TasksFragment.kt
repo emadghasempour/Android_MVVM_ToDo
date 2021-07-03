@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -76,6 +77,11 @@ class TasksFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickL
                     ).setAction("Undo") {
                         taskViewModel.onUndoDeleteTask(event.task)
                     }.show()
+                    is TaskViewModel.TaskEvent.NavigateToEditTaskScreen -> {
+                        val action =
+                            TasksFragmentDirections.actionTasksFragmentToAddEditTaskFragment(event.task)
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }
