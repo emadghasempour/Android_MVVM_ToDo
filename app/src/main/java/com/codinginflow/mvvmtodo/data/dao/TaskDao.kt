@@ -1,6 +1,7 @@
 package com.codinginflow.mvvmtodo.data.dao
 
 import androidx.room.*
+import com.codinginflow.mvvmtodo.data.SortOrder
 import com.codinginflow.mvvmtodo.data.Task
 import kotlinx.coroutines.flow.Flow
 
@@ -11,11 +12,24 @@ interface TaskDao {
     suspend fun insert(task: Task)
 
     @Update
-    suspend fun update(task : Task)
+    suspend fun update(task: Task)
 
     @Delete
-    suspend fun delete(task :Task)
+    suspend fun delete(task: Task)
 
-    @Query("SELECT * FROM TASK_TABLE")
-    fun getTasks() : Flow<List<Task>>
+    fun getTasks(
+        searchQuery: String,
+        sortOrder: SortOrder,
+        hideCompleted: Boolean
+    ): Flow<List<Task>> =
+        when (sortOrder) {
+            SortOrder.BY_NAME -> getTasksSortedByName(searchQuery, hideCompleted)
+            SortOrder.BY_DATE -> getTasksSortedByDate(searchQuery, hideCompleted)
+        }
+
+    @Query("SELECT * FROM TASK_TABLE WHERE(completed !=:hideCompleted OR completed=0) AND name LIKE '%' || :searchQuery || '%' ORDER BY priority DESC,name")
+    fun getTasksSortedByName(searchQuery: String, hideCompleted: Boolean): Flow<List<Task>>
+
+    @Query("SELECT * FROM TASK_TABLE WHERE(completed !=:hideCompleted OR completed=0) AND name LIKE '%' || :searchQuery || '%' ORDER BY priority DESC,created")
+    fun getTasksSortedByDate(searchQuery: String, hideCompleted: Boolean): Flow<List<Task>>
 }
